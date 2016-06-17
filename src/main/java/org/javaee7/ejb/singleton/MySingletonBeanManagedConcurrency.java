@@ -50,8 +50,12 @@ import javax.ejb.Startup;
 @Startup
 @Singleton
 public class MySingletonBeanManagedConcurrency {
-    
-    volatile StringBuilder builder;
+     /**
+     * volatile é o contrário de synchronized,pode ser acessada por varias threads simultaneas.
+     * Volatile o modificador garante que o atributo vai ser sempre lido e escrito diretamente da memória principal, evitando que este tenha valores diferentes em duas threads. 
+     * Além disso, é garantido que a ordem das operações sobre estes atributos não será alterada. E ele só é aplicado a variáveis de instancia
+     */
+    volatile StringBuilder builder; 
 
     @PostConstruct
     private void postConstruct() {
@@ -59,14 +63,14 @@ public class MySingletonBeanManagedConcurrency {
         System.out.println("postConstruct");
     }
 
-    public String readSomething() {
-        return "hora atual: "+ new Date();
+    public synchronized String readSomething() {
+        return "hora atual: "+ new Date().getTime();
     }
 
     public String writeSomething(String something) {
         synchronized (builder) {
             builder.append(something);
         }
-        return builder.toString() + " : " + new Date();
+        return builder.toString() + " : " + new Date().getTime();
     }
 }

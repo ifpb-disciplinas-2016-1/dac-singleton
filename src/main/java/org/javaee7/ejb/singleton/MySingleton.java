@@ -63,12 +63,12 @@ public class MySingleton {
 
     @Lock(LockType.READ)
     public String readSomething() {
-        return "hora atual: "+ new Date();
+        return "hora atual: "+ new Date().getTime();
     }
 
     @Lock(LockType.WRITE)
     public String writeSomething(String something) {
         builder.append(something);
-        return builder.toString() + " : " + new Date();
+        return builder.toString() + " : " + new Date().getTime();
     }
 }
